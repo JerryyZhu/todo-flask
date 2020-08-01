@@ -39,3 +39,22 @@ def delete_task(id):
         'message': 'Task not found'
     }
     return jsonify(msg), 204
+
+# GET / UPDATE ID
+@app.route('/task/<int:id>', methods=['GET', 'POST'])
+def view_task(id):
+    if (request.method == "GET"):
+        task = Task.query.filter_by(id=id).first()
+        return render_template('view_task.html', taskName=task.name, taskDescription=task.description, taskId=task.id)
+    elif (request.method == "POST"):
+        taskId = request.form.get('taskId')
+        taskName = request.form.get('taskName')
+        taskDescription = request.form.get('taskDescription')
+
+        task = Task.query.filter_by(id=id).first()
+        if (task != None):
+            task.name = taskName
+            task.description = taskDescription
+            db.session.add(task)
+            db.session.commit()
+        return redirect(url_for('index'))

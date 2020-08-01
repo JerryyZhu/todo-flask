@@ -1,0 +1,14 @@
+<script>
+  var deleteId = 0;
+  function setDeleteId(event) {
+    deleteId = event.dataset.itemId;
+  }
+  function deleteTask(id) {
+    console.log(deleteId);
+    fetch("/api/item/" + id, {
+      method: "DELETE",
+    })
+      .then(() => window.location.reload())
+      .catch((error) => console.log("Something went wrong: " + error));
+  }
+</script>
