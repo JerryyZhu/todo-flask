@@ -19,3 +19,23 @@ def add_item():
     db.session.add(new_item)
     db.session.commit()
     return redirect(url_for('index'))
+
+# DELETE (Delete a specific task id)
+@app.route('/task/<int:id>', methods=['DELETE'])
+def delete_task(id):
+    task = Task.query.filter_by(id=id).first()
+    
+    # Check if Task exists
+    if (task != None):
+        msg = {
+            'message': 'Delete successful'
+        }
+        db.session.delete(item)
+        db.session.commit()
+        return jsonify(msg), 200
+	
+    # Task does not exist
+    msg = {
+        'message': 'Task not found'
+    }
+    return jsonify(msg), 204
